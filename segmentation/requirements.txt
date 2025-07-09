@@ -1,0 +1,9 @@
+keras
+fastapi
+uvicorn[standard]
+numpy
+tensorflow
+opencv-python
+Pillow
+pydantic<2.0
+python-multipart
