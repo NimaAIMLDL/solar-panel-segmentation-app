@@ -30,4 +30,4 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 # Dor deployment
 EXPOSE 8000
 
-CMD ["sh", "-c", "fastapi run --workers 4 app/main.py --host 0.0.0.0 --port ${PORT:-8000}"]
+CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
