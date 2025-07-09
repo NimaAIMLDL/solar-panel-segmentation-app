@@ -110,7 +110,7 @@ const SegmentationCard: React.FC = () => {
             <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
             You can download example aerial images from GitHub.&nbsp;
             <a
-              href="https://github.com/NimaAIMLDL/solar-panel-segmentation-app/README.md"
+              href="https://github.com/NimaAIMLDL/solar-panel-segmentation-app/blob/main/README.md"
               target="_blank"
               rel="noopener noreferrer"
               className="underline text-blue-600 dark:text-blue-400 hover:text-blue-800"
