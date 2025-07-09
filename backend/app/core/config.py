@@ -21,8 +21,8 @@ def parse_cors(v: Any) -> list[str] | str:
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file="../.env",
-        env_ignore_empty=True,
+        env_file=("../.env", ".env"),
+        env_file_encoding="utf-8",
         extra="ignore",
     )
 
