@@ -30,7 +30,7 @@ A web application for automatically detecting and segmenting photovoltaic panels
 ## 🚀 Features
 
 - 🛰️ Photovoltaic panel segmentation in aerial images  
-- 📊 PV surface calculations from segmented masks  
+- 📊 PV calculations from segmented masks  
 - 🧪 Drag-and-drop interface to test easily 
 - ⚡ Fast inference via U-Net
 - 🐳 Dockerized development and deployment
@@ -44,12 +44,12 @@ A web application for automatically detecting and segmenting photovoltaic panels
 Right-click and **“Save As”** to download example aerial images:
 
 - ![Image 1](https://raw.githubusercontent.com/NimaAIMLDL/solar-panel-segmentation-app/main/frontend/src/assets/test-data/rooftop_pv_1.png)
-- ![Image 2](https://raw.githubusercontent.com/NimaAIMLDL/solar-panel-segmentation-app/main/frontend/src/assets/test-data/rooftop_pv_2.jpg)
-- ![Image 3](https://raw.githubusercontent.com/NimaAIMLDL/solar-panel-segmentation-app/main/frontend/src/assets/test-data/rooftop_pv_3.jpg)
-- ![Image 4](https://raw.githubusercontent.com/NimaAIMLDL/solar-panel-segmentation-app/main/frontend/src/assets/test-data/rooftop_pv_4.jpg)
-- ![Image 5](https://raw.githubusercontent.com/NimaAIMLDL/solar-panel-segmentation-app/main/frontend/src/assets/test-data/rooftop_pv_5.jpg)
+- ![Image 2](https://raw.githubusercontent.com/NimaAIMLDL/solar-panel-segmentation-app/main/frontend/src/assets/test-data/rooftop_pv_2.png)
+- ![Image 3](https://raw.githubusercontent.com/NimaAIMLDL/solar-panel-segmentation-app/main/frontend/src/assets/test-data/rooftop_pv_3.png)
+- ![Image 4](https://raw.githubusercontent.com/NimaAIMLDL/solar-panel-segmentation-app/main/frontend/src/assets/test-data/rooftop_pv_4.png)
+- ![Image 5](https://raw.githubusercontent.com/NimaAIMLDL/solar-panel-segmentation-app/main/frontend/src/assets/test-data/rooftop_pv_5.png)
 
-Or find and dowload them from here: `frontend/src/assets/test-data`
+Or find and download them from here: `frontend/src/assets/test-data`
 
 Then drag and drop them into the segmentation interface in the dashboard.
 
