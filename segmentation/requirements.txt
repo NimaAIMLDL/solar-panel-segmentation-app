@@ -1,10 +1,10 @@
-tensorflow
-keras
+# Essential dependencies
+tensorflow==2.15.0
 numpy
 opencv-python
 Pillow
 
-# FastAPI stack
+# FastAPI + web
 fastapi
 uvicorn[standard]
 python-multipart

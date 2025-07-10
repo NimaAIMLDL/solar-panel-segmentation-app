@@ -1,22 +1,42 @@
 # Reference: https://github.com/zhixuhao/unet
 
 import numpy as np
-from tensorflow.keras.models import Model
-from tensorflow.keras.layers import (
-    Input, Conv2D, MaxPooling2D, Dropout,
-    UpSampling2D, BatchNormalization, concatenate
-)
-from tensorflow.keras.optimizers import Adam
-from keras import backend as K
+import tensorflow as tf
+
 
 class UNetModel:
-    def __init__(self, weights_path: str = None, input_size=(256, 256, 3)):
+    def __init__(self, weights_path: str, input_size=(256, 256, 3)):
         self.input_size = input_size
-        self.model = self._build_unet()
-        if weights_path:
-            self.model.load_weights(weights_path)
+        self.interpreter = tf.lite.Interpreter(model_path=weights_path)
+        self.interpreter.allocate_tensors()
 
-    def _build_unet(self) -> Model:
+        self.input_details = self.interpreter.get_input_details()
+        self.output_details = self.interpreter.get_output_details()
+
+    def predict(self, preprocessed: np.ndarray) -> np.ndarray:
+        """
+        Takes a preprocessed batch of shape (1, H, W, 3) and returns a binary mask (H x W).
+        """
+        input_tensor = preprocessed.astype(self.input_details[0]["dtype"])
+        self.interpreter.set_tensor(self.input_details[0]["index"], input_tensor)
+        self.interpreter.invoke()
+
+        output_data = self.interpreter.get_tensor(self.output_details[0]["index"])[0, :, :, 0]
+        return (output_data > 0.5).astype(np.uint8)
+
+    # === Not used in runtime: kept for reference ===
+    def _build_unet(self):
+        """
+        This method defines the original U-Net architecture used to train.
+        """
+        from tensorflow.keras.models import Model
+        from tensorflow.keras.layers import (
+            Input, Conv2D, MaxPooling2D, Dropout,
+            UpSampling2D, BatchNormalization, concatenate
+        )
+        from tensorflow.keras.optimizers import Adam
+        from keras import backend as K
+
         inputs = Input(self.input_size)
 
         # --- Encoder ---
@@ -96,10 +116,3 @@ class UNetModel:
 
         model.compile(optimizer=Adam(learning_rate=1e-3), loss=iou_loss, metrics=[iou])
         return model
-
-    def predict(self, preprocessed: np.ndarray) -> np.ndarray:
-        """
-        Takes a preprocessed batch of shape (1, H, W, 3) → returns a 2D binary mask (H*W).
-        """
-        raw_pred = self.model.predict(preprocessed)[0, :, :, 0]
-        return (raw_pred > 0.5).astype(np.uint8)

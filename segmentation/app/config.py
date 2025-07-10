@@ -2,7 +2,7 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     # Path to pretrained U-Net weights (inside the container)
-    MODEL_WEIGHTS_PATH: str = "./model_weights/unet_5x_226Aug904.hdf5"
+    MODEL_WEIGHTS_PATH: str = "./model_weights/unet_5x_226Aug904_quant.tflite"
 
     # Threshold for binary mask (unused if model already outputs 0/1)
     PIXEL_THRESHOLD: int = 155
