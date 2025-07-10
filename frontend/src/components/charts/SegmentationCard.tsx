@@ -76,11 +76,11 @@ const SegmentationCard: React.FC = () => {
       const formData = new FormData()
       formData.append('file', selectedFile)
 
-      const apiBase = `${import.meta.env.VITE_API_URL ?? 'http://localhost:8000'}`
+      const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:8000';
       const response = await fetch(`${apiBase}/api/v1/segmentation/predict`, {
         method: 'POST',
         body: formData,
-      })
+      });
 
       if (!response.ok) throw new Error(await response.text())
       const data: PredictionResult = await response.json()
