@@ -11,7 +11,7 @@ async def proxy_predict(file: UploadFile = File(...)):
     base = str(settings.SEGMENTATION_URL).rstrip("/")
     target = f"{base}/predict"
 
-    async with httpx.AsyncClient(timeout=30.0) as client:
+    async with httpx.AsyncClient(timeout=60.0) as client:
         resp = await client.post(
             target,
             files={"file": (file.filename, contents, file.content_type)},

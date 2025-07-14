@@ -7,11 +7,16 @@ import tensorflow as tf
 class UNetModel:
     def __init__(self, weights_path: str, input_size=(256, 256, 3)):
         self.input_size = input_size
-        self.interpreter = tf.lite.Interpreter(model_path=weights_path)
+        self.interpreter = tf.lite.Interpreter(model_path=weights_path, num_threads=4)
         self.interpreter.allocate_tensors()
 
         self.input_details = self.interpreter.get_input_details()
         self.output_details = self.interpreter.get_output_details()
+
+        # dummy inference to warm up the model at startup
+        dummy = np.zeros((1, *self.input_size), dtype=self.input_details[0]["dtype"])
+        self.interpreter.set_tensor(self.input_details[0]["index"], dummy)
+        self.interpreter.invoke()
 
     def predict(self, preprocessed: np.ndarray) -> np.ndarray:
         """

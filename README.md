@@ -10,7 +10,7 @@ A web application for automatically detecting and segmenting photovoltaic panels
 
 ## 🌐 Live Demo
 
-👉 [View Live Demo Here](https://your-app-demo-link.com)
+👉 [View Live Demo Here](https://solar-panel-segmentation.onrender.com/)
 
 ---
 

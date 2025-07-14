@@ -1,8 +1,10 @@
-from fastapi import FastAPI, File, UploadFile, Depends
+from fastapi import FastAPI, File, UploadFile
 from starlette.middleware.cors import CORSMiddleware
-
+import asyncio
 from .services.predictor import PredictorService
 from .schemas import PredictionResponse
+
+predictor_service = PredictorService()
 
 app = FastAPI(
     title="PV Segmentation Microservice",
@@ -17,16 +19,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-def get_predictor_service():
-    return PredictorService()
-
 @app.post("/predict", response_model=PredictionResponse)
 async def predict_pv(
-        file: UploadFile = File(...),
-        service: PredictorService = Depends(get_predictor_service),):
+        file: UploadFile = File(...)):
     """
     Upload an aerial image (JPEG/PNG) under form-data field 'file'.
     Returns segmentation mask + PV metrics.
     """
-    result = await service.predict_from_upload(file)
+    contents = await file.read()
+    
+    loop = asyncio.get_running_loop()
+    result = await loop.run_in_executor(
+        None, predictor_service.predict_from_bytes, contents
+    )
     return PredictionResponse(**result)

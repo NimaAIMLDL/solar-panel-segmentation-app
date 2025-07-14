@@ -37,3 +37,26 @@ class PredictorService:
             "average_hourly_power_kw": calc["average_hourly_power"],
             "segmentation_mask": mask_b64
         }
+    
+    def predict_from_bytes(self, contents: bytes) -> dict:
+        """
+        1) Read bytes → RGB numpy
+        2) Preprocess → run model → get binary mask
+        3) Count pixels → run power calculation
+        4) Return everything plus base64 mask
+        """
+        image_np = ImageUtils.read_image(contents)
+        preprocessed = ImageUtils.preprocess_for_model(image_np)
+        mask = self.model.predict(preprocessed)
+
+        calc = self.calculator.calculate_from_mask(mask)
+        mask_b64 = ImageUtils.encode_mask_to_base64(mask)
+
+        return {
+            "panel_area": calc["panel_area"],
+            "panel_count": calc["panel_count"],
+            "total_power_kwp": calc["total_power"],
+            "annual_energy_mwh": calc["annual_energy"],
+            "average_hourly_power_kw": calc["average_hourly_power"],
+            "segmentation_mask": mask_b64,
+        }
